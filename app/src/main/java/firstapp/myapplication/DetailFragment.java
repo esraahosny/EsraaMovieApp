@@ -8,8 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -36,7 +39,8 @@ public class DetailFragment extends Fragment {
   public firstapp.myapplication.MovieAdapter2 movieAdapter2;
   public List<Movie> listVideos = new ArrayList<>();
   public List<Movie> listReviews = new ArrayList<>();
-
+  public List<Movie> list = new ArrayList<>();
+ DataBaseFavourites dbf ;
 
   @Override
   public View onCreateView(final LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -50,12 +54,21 @@ public class DetailFragment extends Fragment {
     TextView title = (TextView) view.findViewById(R.id.titletv);
     final TextView release_date = (TextView) view.findViewById(R.id.release_datetv);
     TextView overview = (TextView) view.findViewById(R.id.overviewtv);
-    TextView votecount = (TextView) view.findViewById(R.id.vote_count);
-
-
+    TextView voteAverage = (TextView) view.findViewById(R.id.vote_average);
     final ImageView videos = (ImageView) view.findViewById(R.id.imageView2);
     final TextView reviews = (TextView) view.findViewById(R.id.reviewstv);
 
+
+
+    // rating bar
+    final RatingBar ratingBar = (RatingBar)view.findViewById(R.id.ratingBar);
+    ratingBar.setOnClickListener(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View v) {
+
+
+                                   }
+                                 }
     videos.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -73,6 +86,7 @@ public class DetailFragment extends Fragment {
       }
     });
 
+
     reviews.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -86,7 +100,6 @@ public class DetailFragment extends Fragment {
         jsonTask2.execute("https://api.themoviedb.org/3/movie/" + ids + "/reviews?api_key=6be3beeecf3e73c7baf052936de346da");
       }
     });
-
 
 
     // Bundle sentBundle = getArguments();
@@ -110,8 +123,8 @@ public class DetailFragment extends Fragment {
     title.setText(title1);
 
     //vote_count
-    String vote = bundle.getString("v");
-    votecount.setText(vote);
+    String average = bundle.getString("a");
+    voteAverage.setText(average);
 
     return view;
   }
@@ -195,17 +208,12 @@ public class DetailFragment extends Fragment {
         JSONObject finalObject = movieArray.getJSONObject(i);
         Movie movie = new Movie();
         movie.setPosterPath(finalObject.getString(ids));
-        List.add(movie);
+        list.add(movie);
       }
 
-      return List;
+      return list;
     }
 
   }
 }
 
-
-//this part is wrong
-//    String i = bundle.getString("i");
-//    posterpath.getDrawable(i);
-// posterpath.setImageResource(image1);

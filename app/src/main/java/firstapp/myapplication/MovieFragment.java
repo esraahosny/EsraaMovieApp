@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,17 +34,17 @@ import java.util.List;
 public class MovieFragment extends Fragment {
 
     public firstapp.myapplication.MovieAdapter1 movieAdapter1;
-    public List<firstapp.movie_app.Movie> arrayList = new ArrayList<>();
+    public List<firstapp.myapplication.Movie> arrayList = new ArrayList<>();
     public GridView gridView;
-
+    DataBaseFavourites dbf;
     public MovieFragment() {
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //return inflater.inflate(R.layout.fragmentlayout, container, false);
-        View v = inflater.inflate(R.layout.fragmentlayout, container, false);
+        View v = inflater.inflate(R.layout.fragment_main, container, false);
         gridView = (GridView) v.findViewById(R.id.gridView);
-        movieAdapter1 = new firstapp.movie_app.MovieAdapter1(getActivity(), arrayList);
+        movieAdapter1 = new firstapp.myapplication.MovieAdapter1(getActivity(), arrayList);
         gridView.setAdapter(movieAdapter1);
         // updateMovie();
         //JsonTask movieTask = new JsonTask();
@@ -56,26 +57,26 @@ public class MovieFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                firstapp.movie_app.Movie movie = arrayList.get(position);
+                firstapp.myapplication.Movie movie = arrayList.get(position);
                 String image = movie.getPosterPath();
                 String overview = movie.getOverview();
                 String release_date = movie.getRelease_date();
                 String title = movie.getTitle();
-                String vote_count = movie.getPopularity();
+                String vote_average = movie.getPopularity();
                 String video = movie.getVideo();
                 String ids = movie.getId();
 
 
 
                 // listener.setSelectedPosterPath(image);
-                Intent intent = new Intent(getActivity(), firstapp.movie_app.Detail.class);
+                Intent intent = new Intent(getActivity(), firstapp.myapplication.Detail.class);
                 intent.putExtra("i", image);//i=Key , image = value)
                 //i should put all images in arraylist
                 // intent.putExtra("imageID", ImageArray[position]);
                 intent.putExtra("o", overview);
                 intent.putExtra("r", release_date);
                 intent.putExtra("t", title);
-                intent.putExtra("v", vote_count);
+                intent.putExtra("a", vote_average);
                 intent.putExtra("video", video);
                 intent.putExtra("id", ids);
 
@@ -99,6 +100,20 @@ public class MovieFragment extends Fragment {
         JsonTask movieTask = new JsonTask();
         movieTask.execute("https://api.themoviedb.org/3/movie/popular?api_key=6be3beeecf3e73c7baf052936de346da");
     }
+    public void Favorites(String newEntry)
+    {
+        boolean insertData = dbf.saveData(newEntry);
+        if(insertData==true)
+        {
+            Toast.makeText(getContext(),"successfully entered data",Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            Toast.makeText(getContext(),"something wrong",Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 
 //    @Override
 //    public void onCreate(Bundle savedInstanceState) {
@@ -106,10 +121,10 @@ public class MovieFragment extends Fragment {
 //        setHasOptionsMenu(true);
 //    }
 
-    public class JsonTask extends AsyncTask<String, Void, List<firstapp.movie_app.Movie>> {
+    public class JsonTask extends AsyncTask<String, Void, List<firstapp.myapplication.Movie>> {
         private final String LOG = JsonTask.class.getSimpleName();
         //variables & declarations
-        private firstapp.movie_app.MovieAdapter1 movieAdapter1;
+        private firstapp.myapplication.MovieAdapter1 movieAdapter1;
         private View view;
 
 
@@ -119,7 +134,7 @@ public class MovieFragment extends Fragment {
 //        }
 
         //doInBackground part contains connection + url of api + exception handlers
-        protected List<firstapp.movie_app.Movie> doInBackground(String... params) {
+        protected List<firstapp.myapplication.Movie> doInBackground(String... params) {
 
             //initialization of variables
             HttpURLConnection connection = null;
@@ -178,7 +193,7 @@ public class MovieFragment extends Fragment {
             return null;
         }
 
-        private List<firstapp.movie_app.Movie> getData(String jsontoString) throws JSONException {
+        private List<firstapp.myapplication.Movie> getData(String jsontoString) throws JSONException {
 
             JSONObject movieJson = new JSONObject(jsontoString);
             JSONArray movieArray = movieJson.getJSONArray("results");
@@ -186,18 +201,18 @@ public class MovieFragment extends Fragment {
             //here we write all the data to be string and showed in movie details
             final String posterPath = "poster_path";
             final String title = "title";
-            final String vote_count = "vote_count";
+            final String vote_average = "vote_average";
             final String release_date = "release_date";
             final String overview = "overview";
 
             for (int i = 0; i < movieArray.length(); i++) {
                 JSONObject finalObject = movieArray.getJSONObject(i);
-                firstapp.movie_app.Movie movie = new firstapp.movie_app.Movie();
+                firstapp.myapplication.Movie movie = new firstapp.myapplication.Movie();
 
 
                 movie.setPosterPath(finalObject.getString(posterPath));
                 movie.setTitle(finalObject.getString(title));
-                movie.setVote_count(finalObject.getString(vote_count));
+                movie.setVote_count(finalObject.getString(vote_average));
                 movie.setRelease_date(finalObject.getString(release_date));
                 movie.setOverview(finalObject.getString(overview));
 
@@ -242,6 +257,9 @@ public class MovieFragment extends Fragment {
             case R.id.action_most_popular:
                 MostPopular();
                 break;
+            case R.id.action_favorites:
+                Favorites();
+
         }
         return super.onOptionsItemSelected(item);
     }

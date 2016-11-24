@@ -22,6 +22,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Trailer"></activity>
+        <activity android:name=".Detail"
+            android:label="Movie Detail">
+
+        </activity>
+
     </application>
 
 </manifest>

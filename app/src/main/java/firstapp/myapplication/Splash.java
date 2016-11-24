@@ -7,13 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 public class Splash extends AppCompatActivity {
 
     Button button;
     ImageView imageView1;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,31 +28,13 @@ public class Splash extends AppCompatActivity {
             }
         });
 
-         //imageView1.setImageResource(R.drawable.splash);
+        // Picasso.with(Splash.this).load("http://www.dogsgossip.com/image-files/dogs-in-movies.gif").into(imageView1);
+        Glide.with(Splash.this).load("http://www.dogsgossip.com/image-files/dogs-in-movies.gif").into(imageView1);
 
-
-        //to make image pale
-        //imageView1.setAlpha(130);
-
-
-        // these 2 picassos' are for images from json api & any image from website as a test
-
-        Picasso.with(Splash.this).load("http://www.dogsgossip.com/image-files/dogs-in-movies.gif").into(imageView1);
-        // Picasso.with(Splash.this).load("http://image.tmdb.org/t/p/w185//jLRllZsubY8UWpeMyDLVXdRyEWi.jpg").into(imageView1);
 
 
     }}
 
 
-       //    /IfB9hy4JH1eH6HEfIgIGORXi5h.jpg
-        //   /nBNZadXqJSdt05SHLqgT0HuC5Gm.jpg
-        //   /5N20rQURev5CNDcMjHVUZhpoCNC.jpg
-        //   /mLrQMqyZgLeP8FrT5LCobKAiqmK.jpg
-        //   /jjBgi2r5cRt36xF6iNUEhzscEcb.jpg
-        //   /z09QAf8WbZncbitewNk6lKYMZsh.jpg
-        //   /e1mjopzAS2KNsvpbpahQ1a6SkSn.jpg
-        //   /zSouWWrySXshPCT4t3UKCQGayyo.jpg
-        //   /oFOG2yIRcluKfTtYbzz71Vj9bgz.jpg
-        //   /gj282Pniaa78ZJfbaixyLXnXEDI.jpg
-        //   /6FxOPJ9Ysilpq0IgkrMJ7PubFhq.jpg
+
 

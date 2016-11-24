@@ -1,82 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f9fbfb">
 
-    <LinearLayout
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/relativeLayout"
+        android:id="@+id/titletv"
+        android:text="title"
+        android:textSize="60dp"
+        android:background="#15b094" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_alignParentStart="true">
 
         <ImageView
             android:layout_width="150dp"
             android:layout_height="200dp"
-            android:id="@+id/posterpathtv" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/titletv"
-            android:text="title"
+            android:id="@+id/posterpathtv"
+            android:layout_gravity="center_horizontal|top" />
 
-            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/release_datetv"
+                    android:text="release date"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/title"
+                    android:layout_gravity="center_horizontal" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/release_datetv"
-            android:text="release date"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/title"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/vote_count"
-            android:text="vote count"
-            android:layout_below="@+id/release_datetv"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/vote_average"
+                    android:text="vote average"
+                    android:layout_below="@+id/release_datetv"
+                    android:layout_gravity="center_horizontal" />
+        </LinearLayout>
     </LinearLayout>
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RatingBar
+        android:layout_width="342dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar"
+        android:layout_gravity="center_vertical"
+        android:stepSize=".5" />
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_width="388dp"
+        android:layout_height="110dp"
         android:id="@+id/overviewtv"
         android:text="overview"
         android:layout_gravity="right|top"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/relativeLayout" />
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    >
-
 </LinearLayout>
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true">
+        android:orientation="horizontal">
+
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/imageView2"
-        android:src="@drawable/you"
+        android:src="@drawable/youtube"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/reviewstv" />
 
     <TextView
         android:layout_width="70dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:text="Reviews"
         android:id="@+id/reviewstv"
-        android:layout_above="@+id/imageView2"
         android:layout_alignParentStart="true" />
+
     </LinearLayout>
 
-
-</RelativeLayout>
+    </LinearLayout>

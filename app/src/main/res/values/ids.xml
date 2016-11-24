@@ -2,4 +2,6 @@
 <resources>
     <item name="action_top_rated" type="id">action_top_rated</item>
     <item name="action_most_popular" type="id">action_most_popular</item>
+    <item name="action_favorits" type="id">action_favorites</item>
+    <item name="favorites" type="id">action_favorites</item>
 </resources>

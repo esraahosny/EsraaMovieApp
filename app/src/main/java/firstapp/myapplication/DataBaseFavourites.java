@@ -1,7 +1,8 @@
-package firstapp.movie_app;
+package firstapp.myapplication;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -11,24 +12,24 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DataBaseFavourites extends SQLiteOpenHelper {
 
 
-    String DATA_BASE ="database";
-    String TABLE = "favourites";
-    int VERSION = 1;
-    String id = "id";
-    String movieTitle = "title";
+   public static final String DATA_BASE ="database";
+    public static final String TABLE = "favourites";
+    public static final int VERSION = 1;
+    public static final String id = "id";
+    public static final String movieTitle = "title";
 
 
 //    public DataBaseFavourites() {
 //        super();
 //    }
 
-    public DataBaseFavourites(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public DataBaseFavourites(Context context) {
+        super(context,DATA_BASE ,null,1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE + " (" + id+ "INTEGER PRIMARY KEY "+ ""+movieTitle + "text");
+        db.execSQL("create table " + TABLE + " ("+ "ID INTEGER PRIMARY KEY AUTOINCREMENT "+ ""+movieTitle + "text");
         // is query "insert into "
 
         ContentValues favouriteValues = new ContentValues();
@@ -43,13 +44,31 @@ public class DataBaseFavourites extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP IF TABLE EXISTS " + TABLE);
+    }
+    public boolean saveData(String title) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(movieTitle,title);
+        long result = db.insert(TABLE,null,cv);
 
+        if(result==-1) {
+            return false;
+        }
+        else{
+            return true;
+
+        }
+    }
+    public Cursor getListContents()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor data = db.rawQuery("SELECT * FROM " + TABLE,null);
+        return data;
     }
 
- public void inertData(Object o)
- {
 
- }
+
 
 
 }
