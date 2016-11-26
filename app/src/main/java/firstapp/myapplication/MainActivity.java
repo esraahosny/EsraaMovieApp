@@ -10,10 +10,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MovieFragment movieFragment = new MovieFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.activity, movieFragment).commit();
-
-
+        getSupportFragmentManager().beginTransaction().add(R.id.activity, new MovieFragment()).commit();
     }
 
 }

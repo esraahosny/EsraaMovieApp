@@ -1,13 +1,13 @@
 package firstapp.myapplication;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import java.util.List;
  */
 public class MovieAdapter2 extends BaseAdapter {
     private Context context;
-    private List<Movie> listVideos;
+    private List<TrailerData> listVideos;
 
-    public MovieAdapter2(Context context , List<Movie> listVideos) {
+    public MovieAdapter2(Context context , List<TrailerData> listVideos) {
         super();
         this.context = context;
         this.listVideos = listVideos;
@@ -39,15 +39,22 @@ public class MovieAdapter2 extends BaseAdapter {
         return listVideos.size();
     }
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.videos_item, parent, false);
         //view = LayoutInflater.from(context).inflate(R.layout.grid_item, null);
-        ImageView image = (ImageView) convertView.findViewById(R.id.image);
-        image.setImageResource(Integer.parseInt("https://api.themoviedb.org/3/movie/"+ listVideos.get(position).getId() + "/videos?api_key=6be3beeecf3e73c7baf052936de346da"));
-        Intent i = new Intent(context,Trailer.class);
-        i.putExtra("videoid", (Parcelable)image);
-        return convertView;
+        final ImageButton imageButton = (ImageButton) convertView.findViewById(R.id.imageButton);
+        TextView textView = (TextView) convertView.findViewById(R.id.textView);
+
+        textView.setText(listVideos.get(position).getTrailer_name() );
+        imageButton.setImageResource(R.drawable.play_icon);
+
+if(convertView==null)
+    Log.v("error","null");
+else
+Log.v("right","fill");
+
+    return convertView;
     }
 
 }

@@ -14,9 +14,9 @@ import java.util.List;
  */
 public class MovieAdapter3  extends BaseAdapter {
     private Context context;
-    private List<Movie> listReviews;
+    private List<ReviewsData> listReviews;
 
-    public MovieAdapter3(Context context, List<Movie> listReviews) {
+    public MovieAdapter3(Context context, List<ReviewsData> listReviews) {
         this.context = context;
         this.listReviews = listReviews;
     }
@@ -39,10 +39,9 @@ public class MovieAdapter3  extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.videos_item, parent, false);
-        //view = LayoutInflater.from(context).inflate(R.layout.grid_item, null);
+        convertView = inflater.inflate(R.layout.reviews_item, parent, false);
         TextView textView= (TextView) convertView.findViewById(R.id.textView);
-        textView.setText(Integer.parseInt("https://api.themoviedb.org/3/movie/"+ listReviews.get(position).getId() + "/reviews?api_key=6be3beeecf3e73c7baf052936de346da"));
+        textView.setText("https://api.themoviedb.org/3/movie/"+ listReviews.get(position).getContent() + "/reviews?api_key=6be3beeecf3e73c7baf052936de346da");
         return convertView;
     }
     }

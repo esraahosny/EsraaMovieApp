@@ -175,4 +175,5 @@ package firstapp.myapplication;
     public void setVote_count(String vote_count) {
         this.vote_count = vote_count;
     }
+
 }

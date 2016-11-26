@@ -2,8 +2,9 @@ package firstapp.myapplication;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,9 +36,16 @@ public class MovieFragment extends Fragment {
     public firstapp.myapplication.MovieAdapter1 movieAdapter1;
     public List<firstapp.myapplication.Movie> arrayList = new ArrayList<>();
     public GridView gridView;
-    DataBaseFavourites dbf;
-    public MovieFragment() {
+    //DataBaseFavourites dbf;
+//    public MovieFragment() {
+//    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //return inflater.inflate(R.layout.fragmentlayout, container, false);
@@ -49,7 +56,7 @@ public class MovieFragment extends Fragment {
         // updateMovie();
         //JsonTask movieTask = new JsonTask();
         //movieTask.execute();
-        TopRated();
+        //TopRated();
         MostPopular();
         //onOptionsItemSelected();
 
@@ -80,7 +87,8 @@ public class MovieFragment extends Fragment {
                 intent.putExtra("video", video);
                 intent.putExtra("id", ids);
 
-                getActivity().startActivity(intent);
+               // getActivity().
+                        startActivity(intent);
             }
         });
         return v;
@@ -100,18 +108,18 @@ public class MovieFragment extends Fragment {
         JsonTask movieTask = new JsonTask();
         movieTask.execute("https://api.themoviedb.org/3/movie/popular?api_key=6be3beeecf3e73c7baf052936de346da");
     }
-    public void Favorites(String newEntry)
-    {
-        boolean insertData = dbf.saveData(newEntry);
-        if(insertData==true)
-        {
-            Toast.makeText(getContext(),"successfully entered data",Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            Toast.makeText(getContext(),"something wrong",Toast.LENGTH_LONG).show();
-        }
-    }
+//    public void Favorites(String newEntry)
+//    {
+//        boolean insertData = dbf.saveData(newEntry);
+//        if(insertData==true)
+//        {
+//            Toast.makeText(getContext(),"successfully entered data",Toast.LENGTH_LONG).show();
+//        }
+//        else
+//        {
+//            Toast.makeText(getContext(),"something wrong",Toast.LENGTH_LONG).show();
+//        }
+//    }
 
 
 
@@ -124,7 +132,6 @@ public class MovieFragment extends Fragment {
     public class JsonTask extends AsyncTask<String, Void, List<firstapp.myapplication.Movie>> {
         private final String LOG = JsonTask.class.getSimpleName();
         //variables & declarations
-        private firstapp.myapplication.MovieAdapter1 movieAdapter1;
         private View view;
 
 
@@ -134,7 +141,7 @@ public class MovieFragment extends Fragment {
 //        }
 
         //doInBackground part contains connection + url of api + exception handlers
-        protected List<firstapp.myapplication.Movie> doInBackground(String... params) {
+        protected List<Movie> doInBackground(String... params) {
 
             //initialization of variables
             HttpURLConnection connection = null;
@@ -164,6 +171,7 @@ public class MovieFragment extends Fragment {
                     return null;
                 }
                 finaljson = buffer.toString();
+                Log.v("finalJSON",finaljson);
 
             } catch (IOException e1) {
                 Log.e(LOG, "error", e1);
@@ -204,6 +212,8 @@ public class MovieFragment extends Fragment {
             final String vote_average = "vote_average";
             final String release_date = "release_date";
             final String overview = "overview";
+            final String id = "id";
+
 
             for (int i = 0; i < movieArray.length(); i++) {
                 JSONObject finalObject = movieArray.getJSONObject(i);
@@ -215,6 +225,7 @@ public class MovieFragment extends Fragment {
                 movie.setVote_count(finalObject.getString(vote_average));
                 movie.setRelease_date(finalObject.getString(release_date));
                 movie.setOverview(finalObject.getString(overview));
+                movie.setId(finalObject.getString(id));
 
                 arrayList.add(movie);
             }
@@ -229,12 +240,12 @@ public class MovieFragment extends Fragment {
             return arrayList;
         }
 
-//        @Override
-//        protected void onPostExecute(List<Movie> movies) {
-//            super.onPostExecute(arrayList);
-//            movieAdapter1.notifyDataSetChanged();
-//
-//        }
+        @Override
+        protected void onPostExecute(List<Movie> movies) {
+            super.onPostExecute(arrayList);
+            movieAdapter1.notifyDataSetChanged();
+
+        }
     }
 //
 
@@ -257,8 +268,8 @@ public class MovieFragment extends Fragment {
             case R.id.action_most_popular:
                 MostPopular();
                 break;
-            case R.id.action_favorites:
-                Favorites();
+//            case R.id.action_favorites:
+//                Favorites();
 
         }
         return super.onOptionsItemSelected(item);

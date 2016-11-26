@@ -12,4 +12,3 @@
         android:id="@+id/imageView" />
 
 </RelativeLayout>
-    <!--android:background="@android:color/holo_red_dark"-->
